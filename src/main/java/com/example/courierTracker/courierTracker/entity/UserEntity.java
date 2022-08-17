@@ -28,4 +28,59 @@ public class UserEntity {
             inverseJoinColumns = @JoinColumn(name = "region_entity_id")
     )
     private List<RegionEntity> regions = new ArrayList<>();
+
+    public UserEntity() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public RoleEntity getRole() {
+        return role;
+    }
+
+    public void setRole(RoleEntity role) {
+        this.role = role;
+    }
+
+    public UserTypeEntity getUserType() {
+        return userType;
+    }
+
+    public void setUserType(UserTypeEntity userType) {
+        this.userType = userType;
+    }
+
+    public List<RegionEntity> getRegions() {
+        return regions;
+    }
+
+    public void setRegions(List<RegionEntity> regions) {
+        this.regions = regions;
+    }
 }

@@ -12,4 +12,27 @@ public class RegionEntity {
     private String name;
     @ManyToMany(mappedBy = "regions")
     private List<UserEntity> couriers;
+
+    public RegionEntity() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<UserEntity> getCouriers() {
+        return couriers;
+    }
+
+    public void setCouriers(List<UserEntity> couriers) {
+        this.couriers = couriers;
+    }
 }
