@@ -34,6 +34,10 @@ public class UserEntity {
     public UserEntity() {
     }
 
+    public void addRoleToUserRoles(RoleEntity role) {
+        roles.add(role);
+    }
+
     public long getId() {
         return id;
     }
