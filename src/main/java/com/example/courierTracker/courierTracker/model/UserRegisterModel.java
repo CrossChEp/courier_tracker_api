@@ -6,6 +6,8 @@ public class UserRegisterModel {
     private String username;
     private String email;
     private String password;
+    private String name;
+    private String surname;
 
     public static UserRegisterModel toModel(UserEntity user) {
         UserRegisterModel model = new UserRegisterModel();
@@ -16,6 +18,22 @@ public class UserRegisterModel {
     }
 
     public UserRegisterModel() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getUsername() {

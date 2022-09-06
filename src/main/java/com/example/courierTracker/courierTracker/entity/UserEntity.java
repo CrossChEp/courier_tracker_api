@@ -4,30 +4,32 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Table(name = "users")
 @Entity
 public class UserEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String username;
+    private String name;
+    private String surname;
     private String email;
     private String password;
 
-    @ManyToOne
-    @JoinColumn(name = "role_entity_id")
-    private RoleEntity role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<RoleEntity> roles;
 
     @ManyToOne
-    @JoinColumn(name = "user_type_entity_id")
+    @JoinColumn(name = "user_type_id")
     private UserTypeEntity userType;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "couirier_regions",
-            joinColumns = @JoinColumn(name = "user_entity_id"),
-            inverseJoinColumns = @JoinColumn(name = "region_entity_id")
+            name = "user_regions",
+            joinColumns = @JoinColumn(name = "users_id"),
+            inverseJoinColumns = @JoinColumn(name = "regions_id")
     )
-    private List<RegionEntity> regions = new ArrayList<>();
+    private List<RegionEntity> regions;
 
     public UserEntity() {
     }
@@ -39,6 +41,8 @@ public class UserEntity {
     public String getUsername() {
         return username;
     }
+
+
 
     public void setUsername(String username) {
         this.username = username;
@@ -59,17 +63,32 @@ public class UserEntity {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public RoleEntity getRole() {
-        return role;
-    }
-
-    public void setRole(RoleEntity role) {
-        this.role = role;
-    }
-
     public UserTypeEntity getUserType() {
         return userType;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public List<RoleEntity> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<RoleEntity> roles) {
+        this.roles = roles;
     }
 
     public void setUserType(UserTypeEntity userType) {

@@ -4,14 +4,16 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Table(name = "user_type")
 @Entity
+
 public class UserTypeEntity {
     @Id
     @GeneratedValue
     private long id;
     private String type;
 
-    @OneToMany(mappedBy = "user_type_entity", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "userType", cascade = CascadeType.ALL)
     private List<UserEntity> users = new ArrayList<>();
 
     public UserTypeEntity() {

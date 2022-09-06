@@ -42,14 +42,13 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication auth) throws IOException, ServletException {
-        User user = (User) auth.getPrincipal();
         String accessToken = JWT.create()
-                .withSubject(user.getUsername())
+                .withSubject(auth.getName())
                 .withExpiresAt(new Date().toInstant().plus(Duration.ofMinutes(30)))
-                .withClaim("role", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+                .withClaim("role", auth.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(ConfigVariables.getJWTAlgorithm());
         String refreshToken = JWT.create()
-                .withSubject(user.getUsername())
+                .withSubject(auth.getName())
                 .withExpiresAt(new Date().toInstant().plus(Duration.ofDays(14)))
                 .sign(ConfigVariables.getJWTAlgorithm());
         response.setContentType(MediaType.APPLICATION_PROBLEM_JSON_VALUE);

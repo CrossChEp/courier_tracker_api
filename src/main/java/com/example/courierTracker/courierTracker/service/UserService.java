@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -32,7 +31,9 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException("user with such username doesn't exists");
         }
         ArrayList<SimpleGrantedAuthority> userRoles = new ArrayList<>();
-        userRoles.add(new SimpleGrantedAuthority(user.getRole().getName()));
+        for(var role: user.getRoles()) {
+            userRoles.add(new SimpleGrantedAuthority(role.getName()));
+        }
         return new User(user.getUsername(), user.getPassword(), userRoles);
     }
 
@@ -43,6 +44,8 @@ public class UserService implements UserDetailsService {
         }
         user = new UserEntity();
         user.setUsername(userData.getUsername());
+        user.setName(userData.getName());
+        user.setSurname(userData.getSurname());
         user.setEmail(userData.getEmail());
         user.setPassword(passwordEncoder.encode(userData.getPassword()));
         userRepo.save(user);
