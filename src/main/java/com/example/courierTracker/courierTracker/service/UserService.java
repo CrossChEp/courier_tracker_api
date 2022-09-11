@@ -7,6 +7,7 @@ import com.example.courierTracker.courierTracker.model.UserRegisterModel;
 import com.example.courierTracker.courierTracker.reopsitory.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -49,5 +50,10 @@ public class UserService implements UserDetailsService {
         user.setEmail(userData.getEmail());
         user.setPassword(passwordEncoder.encode(userData.getPassword()));
         userRepo.save(user);
+    }
+
+    public UserEntity getCurrentUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userRepo.findByUsername(username);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.courierTracker.courierTracker.security;
 
+import com.example.courierTracker.courierTracker.config.Roles;
 import com.example.courierTracker.courierTracker.filter.CustomAuthenticationFilter;
 import com.example.courierTracker.courierTracker.filter.CustomAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/api/login/**").permitAll();
         http.authorizeRequests().antMatchers("/api/user/register/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/role/**").authenticated();
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/admin/**").authenticated();
         http.addFilter(authenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
