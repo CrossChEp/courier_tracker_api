@@ -1,9 +1,8 @@
 package com.example.courierTracker.courierTracker.service;
 
-import com.example.courierTracker.courierTracker.entity.RoleEntity;
 import com.example.courierTracker.courierTracker.entity.UserEntity;
 import com.example.courierTracker.courierTracker.exception.UserAlreadyExistsException;
-import com.example.courierTracker.courierTracker.model.UserRegisterModel;
+import com.example.courierTracker.courierTracker.model.UserModels.UserRegisterModel;
 import com.example.courierTracker.courierTracker.reopsitory.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

@@ -4,15 +4,11 @@ import com.example.courierTracker.courierTracker.config.Roles;
 import com.example.courierTracker.courierTracker.entity.RoleEntity;
 import com.example.courierTracker.courierTracker.entity.UserEntity;
 import com.example.courierTracker.courierTracker.exception.RoleAlreadyExists;
-import com.example.courierTracker.courierTracker.exception.UserAlreadyExistsException;
 import com.example.courierTracker.courierTracker.exception.UserHasNoPermission;
-import com.example.courierTracker.courierTracker.model.AddRoleModel;
+import com.example.courierTracker.courierTracker.model.roleModels.AddRoleModel;
 import com.example.courierTracker.courierTracker.reopsitory.RoleRepository;
-import com.example.courierTracker.courierTracker.reopsitory.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.management.relation.Role;
 
 @Service
 public class RoleService {

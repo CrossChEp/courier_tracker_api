@@ -1,12 +1,10 @@
 package com.example.courierTracker.courierTracker.security;
 
-import com.example.courierTracker.courierTracker.config.Roles;
 import com.example.courierTracker.courierTracker.filter.CustomAuthenticationFilter;
 import com.example.courierTracker.courierTracker.filter.CustomAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -36,8 +34,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().antMatchers("/api/login/**").permitAll();
         http.authorizeRequests().antMatchers("/api/user/register/**").permitAll();
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/role/**").authenticated();
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/admin/**").authenticated();
+        http.authorizeRequests().antMatchers("/api/role/**").authenticated();
+//        http.authorizeRequests().antMatchers("/api/admin/**").authenticated();
+        http.authorizeRequests().antMatchers("/api/region/**").authenticated();
+        http.authorizeRequests().antMatchers("/api/courier/**").authenticated();
         http.addFilter(authenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }

@@ -34,6 +34,10 @@ public class UserEntity {
     public UserEntity() {
     }
 
+    public void addRegion(RegionEntity region) {
+        regions.add(region);
+    }
+
     public void addRoleToUserRoles(RoleEntity role) {
         roles.add(role);
     }

@@ -12,11 +12,20 @@ public class UserTypeEntity {
     @GeneratedValue
     private long id;
     private String type;
+    private double capacity;
 
     @OneToMany(mappedBy = "userType", cascade = CascadeType.ALL)
     private List<UserEntity> users = new ArrayList<>();
 
     public UserTypeEntity() {
+    }
+
+    public double getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(double capacity) {
+        this.capacity = capacity;
     }
 
     public long getId() {
