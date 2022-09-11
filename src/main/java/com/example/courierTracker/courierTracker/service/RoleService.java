@@ -5,7 +5,7 @@ import com.example.courierTracker.courierTracker.entity.RoleEntity;
 import com.example.courierTracker.courierTracker.entity.UserEntity;
 import com.example.courierTracker.courierTracker.exception.alreadyExistsException.RoleAlreadyExists;
 import com.example.courierTracker.courierTracker.exception.UserHasNoPermission;
-import com.example.courierTracker.courierTracker.model.roleModels.AddRoleModel;
+import com.example.courierTracker.courierTracker.model.role.AddRoleModel;
 import com.example.courierTracker.courierTracker.reopsitory.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,5 +37,13 @@ public class RoleService {
     public boolean isUserPrincipalContainsRole(String roleName) {
         UserEntity user = userService.getCurrentUser();
         return user.getRoles().stream().anyMatch(x -> x.getName().equals(roleName));
+    }
+
+    public RoleEntity getRoleById(long id) {
+        return roleRepo.findById(id).orElseThrow();
+    }
+
+    public RoleEntity getRoleByName(String name) {
+        return roleRepo.findByName(name);
     }
 }

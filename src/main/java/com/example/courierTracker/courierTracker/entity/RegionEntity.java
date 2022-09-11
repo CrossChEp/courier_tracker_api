@@ -1,5 +1,7 @@
 package com.example.courierTracker.courierTracker.entity;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +14,7 @@ public class RegionEntity {
     private long id;
     private String name;
     @ManyToMany(mappedBy = "regions")
+    @JsonIgnore
     private List<UserEntity> couriers;
 
     public RegionEntity() {

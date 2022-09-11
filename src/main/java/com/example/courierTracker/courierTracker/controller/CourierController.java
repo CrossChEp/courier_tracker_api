@@ -1,15 +1,12 @@
 package com.example.courierTracker.courierTracker.controller;
 
-import com.example.courierTracker.courierTracker.model.UserModels.DefineCourierModel;
-import com.example.courierTracker.courierTracker.model.courierTypeModels.AddCourierTypeModel;
+import com.example.courierTracker.courierTracker.model.courier.CourierUpdateModel;
+import com.example.courierTracker.courierTracker.model.courier.DefineCourierModel;
+import com.example.courierTracker.courierTracker.model.courier.AddCourierTypeModel;
 import com.example.courierTracker.courierTracker.service.CourierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/courier")
@@ -27,5 +24,15 @@ public class CourierController {
     public ResponseEntity<Object> addCourierType(@RequestBody AddCourierTypeModel courierTypeData) {
         courierService.addCourierType(courierTypeData);
         return ResponseEntity.ok("courier type was added");
+    }
+
+    @PutMapping
+    public ResponseEntity<Object> updateCourierData(@RequestBody CourierUpdateModel courierUpdateData) {
+        courierService.updateCourier(courierUpdateData);
+        return ResponseEntity.ok("courier was updated");
+    }
+    @GetMapping
+    public ResponseEntity<Object> getCouriers() {
+        return ResponseEntity.ok(courierService.getCouriers());
     }
 }

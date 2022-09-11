@@ -1,4 +1,4 @@
-package com.example.courierTracker.courierTracker.model.UserModels;
+package com.example.courierTracker.courierTracker.model.admin;
 
 public class AdminDataModel {
     private long userId;

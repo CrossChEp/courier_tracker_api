@@ -1,4 +1,4 @@
-package com.example.courierTracker.courierTracker.model.UserModels;
+package com.example.courierTracker.courierTracker.model.user;
 
 import com.example.courierTracker.courierTracker.entity.UserEntity;
 

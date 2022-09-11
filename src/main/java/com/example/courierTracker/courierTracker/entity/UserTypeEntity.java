@@ -1,5 +1,7 @@
 package com.example.courierTracker.courierTracker.entity;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +17,7 @@ public class UserTypeEntity {
     private double capacity;
 
     @OneToMany(mappedBy = "userType", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<UserEntity> users = new ArrayList<>();
 
     public UserTypeEntity() {

@@ -3,7 +3,7 @@ package com.example.courierTracker.courierTracker.service;
 import com.example.courierTracker.courierTracker.config.Roles;
 import com.example.courierTracker.courierTracker.entity.RoleEntity;
 import com.example.courierTracker.courierTracker.entity.UserEntity;
-import com.example.courierTracker.courierTracker.model.UserModels.AdminDataModel;
+import com.example.courierTracker.courierTracker.model.admin.AdminDataModel;
 import com.example.courierTracker.courierTracker.reopsitory.RoleRepository;
 import com.example.courierTracker.courierTracker.reopsitory.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class AdministrationService {
     private RoleService roleService;
 
     public void provideAdmin(AdminDataModel userData) {
-//        roleService.checkUserRoleOrElseThrow(Roles.ADMIN);
+        roleService.checkUserRoleOrElseThrow(Roles.ADMIN);
         UserEntity user = userRepo.findById(userData.getUserId()).orElseThrow();
         RoleEntity role = roleRepo.findByName(userData.getRoleName());
         user.addRoleToUserRoles(role);

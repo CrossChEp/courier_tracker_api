@@ -1,4 +1,4 @@
-package com.example.courierTracker.courierTracker.model.UserModels;
+package com.example.courierTracker.courierTracker.model.courier;
 
 public class DefineCourierModel {
     private long UserId;

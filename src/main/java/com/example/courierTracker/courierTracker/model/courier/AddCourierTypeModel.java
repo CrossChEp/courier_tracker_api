@@ -1,4 +1,4 @@
-package com.example.courierTracker.courierTracker.model.courierTypeModels;
+package com.example.courierTracker.courierTracker.model.courier;
 
 public class AddCourierTypeModel {
     private String typeName;

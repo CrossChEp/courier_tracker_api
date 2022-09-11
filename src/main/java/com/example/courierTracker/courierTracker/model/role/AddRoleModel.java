@@ -1,4 +1,4 @@
-package com.example.courierTracker.courierTracker.model.roleModels;
+package com.example.courierTracker.courierTracker.model.role;
 
 public class AddRoleModel {
     private String name;
