@@ -3,7 +3,7 @@ package com.example.courierTracker.courierTracker.service;
 import com.example.courierTracker.courierTracker.config.Roles;
 import com.example.courierTracker.courierTracker.entity.RoleEntity;
 import com.example.courierTracker.courierTracker.entity.UserEntity;
-import com.example.courierTracker.courierTracker.exception.RoleAlreadyExists;
+import com.example.courierTracker.courierTracker.exception.alreadyExistsException.RoleAlreadyExists;
 import com.example.courierTracker.courierTracker.exception.UserHasNoPermission;
 import com.example.courierTracker.courierTracker.model.roleModels.AddRoleModel;
 import com.example.courierTracker.courierTracker.reopsitory.RoleRepository;

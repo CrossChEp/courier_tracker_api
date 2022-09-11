@@ -1,7 +1,7 @@
 package com.example.courierTracker.courierTracker.service;
 
 import com.example.courierTracker.courierTracker.entity.UserEntity;
-import com.example.courierTracker.courierTracker.exception.UserAlreadyExistsException;
+import com.example.courierTracker.courierTracker.exception.alreadyExistsException.UserAlreadyExistsException;
 import com.example.courierTracker.courierTracker.model.UserModels.UserRegisterModel;
 import com.example.courierTracker.courierTracker.reopsitory.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,13 +42,18 @@ public class UserService implements UserDetailsService {
         if(user != null) {
             throw new UserAlreadyExistsException("user with such username already exists");
         }
-        user = new UserEntity();
+        user = generateUserEntity(userData);
+        userRepo.save(user);
+    }
+
+    private UserEntity generateUserEntity(UserRegisterModel userData) {
+        UserEntity user = new UserEntity();
         user.setUsername(userData.getUsername());
         user.setName(userData.getName());
         user.setSurname(userData.getSurname());
         user.setEmail(userData.getEmail());
         user.setPassword(passwordEncoder.encode(userData.getPassword()));
-        userRepo.save(user);
+        return user;
     }
 
     public UserEntity getCurrentUser() {

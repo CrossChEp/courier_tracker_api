@@ -4,7 +4,7 @@ import com.example.courierTracker.courierTracker.config.Roles;
 import com.example.courierTracker.courierTracker.entity.RegionEntity;
 import com.example.courierTracker.courierTracker.entity.UserEntity;
 import com.example.courierTracker.courierTracker.entity.UserTypeEntity;
-import com.example.courierTracker.courierTracker.exception.CourierTypeAlreadyExists;
+import com.example.courierTracker.courierTracker.exception.alreadyExistsException.CourierTypeAlreadyExists;
 import com.example.courierTracker.courierTracker.model.UserModels.DefineCourierModel;
 import com.example.courierTracker.courierTracker.model.courierTypeModels.AddCourierTypeModel;
 import com.example.courierTracker.courierTracker.reopsitory.CourierTypeRepository;

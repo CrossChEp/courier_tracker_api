@@ -1,6 +1,6 @@
 package com.example.courierTracker.courierTracker.controller;
 
-import com.example.courierTracker.courierTracker.exception.RoleAlreadyExists;
+import com.example.courierTracker.courierTracker.exception.alreadyExistsException.RoleAlreadyExists;
 import com.example.courierTracker.courierTracker.model.roleModels.AddRoleModel;
 import com.example.courierTracker.courierTracker.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
