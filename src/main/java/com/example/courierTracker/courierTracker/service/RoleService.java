@@ -4,6 +4,7 @@ import com.example.courierTracker.courierTracker.config.Roles;
 import com.example.courierTracker.courierTracker.entity.RoleEntity;
 import com.example.courierTracker.courierTracker.entity.UserEntity;
 import com.example.courierTracker.courierTracker.exception.RoleAlreadyExists;
+import com.example.courierTracker.courierTracker.exception.UserAlreadyExistsException;
 import com.example.courierTracker.courierTracker.exception.UserHasNoPermission;
 import com.example.courierTracker.courierTracker.model.AddRoleModel;
 import com.example.courierTracker.courierTracker.reopsitory.RoleRepository;
@@ -21,9 +22,7 @@ public class RoleService {
     private UserService userService;
 
     public void addRoleToDatabase(AddRoleModel roleData) throws RoleAlreadyExists {
-        if(!isUserPrincipalContainsRole(Roles.ADMIN)) {
-            throw new UserHasNoPermission("this function available only for admin users");
-        }
+        checkUserRoleOrElseThrow(Roles.ADMIN);
         RoleEntity role = roleRepo.findByName(roleData.getName());
         if(role != null) {
             throw new RoleAlreadyExists("role with such name already exists");
@@ -31,6 +30,12 @@ public class RoleService {
         role = new RoleEntity();
         role.setName(roleData.getName());
         roleRepo.save(role);
+    }
+
+    public void checkUserRoleOrElseThrow(String roleName) {
+        if(!isUserPrincipalContainsRole(roleName)) {
+            throw new UserHasNoPermission("this function available only for admin users");
+        }
     }
 
     public boolean isUserPrincipalContainsRole(String roleName) {

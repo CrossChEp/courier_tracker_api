@@ -18,13 +18,11 @@ public class AdministrationService {
     private RoleRepository roleRepo;
     @Autowired
     private UserRepository userRepo;
-
-    private final RoleService roleService = new RoleService();
+    @Autowired
+    private RoleService roleService;
 
     public void provideAdmin(AdminDataModel userData) {
-        if(!roleService.isUserPrincipalContainsRole(Roles.ADMIN)) {
-            throw new UserHasNoPermission("this function available only for admin users");
-        }
+        roleService.checkUserRoleOrElseThrow(Roles.ADMIN);
         UserEntity user = userRepo.findById(userData.getUserId()).orElseThrow();
         RoleEntity role = roleRepo.findByName(userData.getRoleName());
         user.addRoleToUserRoles(role);
