@@ -10,6 +10,7 @@ import com.example.courierTracker.courierTracker.model.courier.CourierGetModel;
 import com.example.courierTracker.courierTracker.model.courier.CourierUpdateModel;
 import com.example.courierTracker.courierTracker.model.courier.DefineCourierModel;
 import com.example.courierTracker.courierTracker.model.courier.AddCourierTypeModel;
+import com.example.courierTracker.courierTracker.model.region.RegionGetModel;
 import com.example.courierTracker.courierTracker.reopsitory.CourierTypeRepository;
 import com.example.courierTracker.courierTracker.reopsitory.RegionRepository;
 import com.example.courierTracker.courierTracker.reopsitory.UserRepository;
@@ -91,11 +92,19 @@ public class CourierService {
                 .filter(x -> x.getRoles().contains(courier)).toList();
         return generateCourierGetModelList(users);
     }
+
     private List<CourierGetModel> generateCourierGetModelList(List<UserEntity> couriers) {
         List<CourierGetModel> courierModels = new ArrayList<>();
         for(var courier: couriers) {
             courierModels.add(CourierGetModel.toModel(courier));
         }
         return courierModels;
+    }
+    public static List<RegionGetModel> generateRegionGetModelList(List<RegionEntity> regions) {
+        List<RegionGetModel> regionModels = new ArrayList<>();
+        for(var region: regions) {
+            regionModels.add(RegionGetModel.toModel(region));
+        }
+        return regionModels;
     }
 }

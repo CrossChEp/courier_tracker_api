@@ -3,6 +3,9 @@ package com.example.courierTracker.courierTracker.model.courier;
 import com.example.courierTracker.courierTracker.entity.RegionEntity;
 import com.example.courierTracker.courierTracker.entity.UserEntity;
 import com.example.courierTracker.courierTracker.entity.UserTypeEntity;
+import com.example.courierTracker.courierTracker.model.region.RegionGetModel;
+import com.example.courierTracker.courierTracker.service.CourierService;
+import org.modelmapper.ModelMapper;
 
 import java.util.List;
 
@@ -13,17 +16,18 @@ public class CourierGetModel {
     private String surname;
     private String email;
     private UserTypeEntity type;
-    private List<RegionEntity> regions;
+    private List<RegionGetModel> regions;
 
     public CourierGetModel() {
     }
 
     public static CourierGetModel toModel(UserEntity user) {
         CourierGetModel model = new CourierGetModel();
+        ModelMapper modelMapper = new ModelMapper();
         model.setUsername(user.getUsername());
         model.setId(user.getId());
         model.setType(user.getUserType());
-        model.setRegion(user.getRegions());
+        model.setRegion(CourierService.generateRegionGetModelList(user.getRegions()));
         return model;
     }
 
@@ -75,11 +79,11 @@ public class CourierGetModel {
         this.type = type;
     }
 
-    public List<RegionEntity> getRegion() {
+    public List<RegionGetModel> getRegion() {
         return regions;
     }
 
-    public void setRegion(List<RegionEntity> region) {
+    public void setRegion(List<RegionGetModel> region) {
         this.regions = region;
     }
 }

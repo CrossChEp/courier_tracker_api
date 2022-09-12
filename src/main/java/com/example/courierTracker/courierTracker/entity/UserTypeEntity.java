@@ -1,6 +1,8 @@
 package com.example.courierTracker.courierTracker.entity;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
+
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,7 +19,6 @@ public class UserTypeEntity {
     private double capacity;
 
     @OneToMany(mappedBy = "userType", cascade = CascadeType.ALL)
-    @JsonIgnore
     private List<UserEntity> users = new ArrayList<>();
 
     public UserTypeEntity() {
@@ -42,7 +43,7 @@ public class UserTypeEntity {
     public void setType(String type) {
         this.type = type;
     }
-
+    @JsonIgnore
     public List<UserEntity> getUsers() {
         return users;
     }

@@ -1,6 +1,7 @@
 package com.example.courierTracker.courierTracker.entity;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class UserEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_type_id")
-    @JsonIgnore
+
     private UserTypeEntity userType;
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -33,7 +34,7 @@ public class UserEntity {
             joinColumns = @JoinColumn(name = "users_id"),
             inverseJoinColumns = @JoinColumn(name = "regions_id")
     )
-    @JsonIgnore
+
     private List<RegionEntity> regions;
 
     public UserEntity() {
@@ -76,6 +77,7 @@ public class UserEntity {
     public void setPassword(String password) {
         this.password = password;
     }
+    @JsonIgnore
     public UserTypeEntity getUserType() {
         return userType;
     }
@@ -107,6 +109,7 @@ public class UserEntity {
     public void setUserType(UserTypeEntity userType) {
         this.userType = userType;
     }
+    @JsonIgnore
 
     public List<RegionEntity> getRegions() {
         return regions;
