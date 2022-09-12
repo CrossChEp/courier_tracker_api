@@ -5,6 +5,7 @@ import com.example.courierTracker.courierTracker.entity.RegionEntity;
 import com.example.courierTracker.courierTracker.entity.RoleEntity;
 import com.example.courierTracker.courierTracker.entity.UserEntity;
 import com.example.courierTracker.courierTracker.entity.UserTypeEntity;
+import com.example.courierTracker.courierTracker.exception.CourierHasNoSuchRole;
 import com.example.courierTracker.courierTracker.exception.alreadyExistsException.CourierTypeAlreadyExists;
 import com.example.courierTracker.courierTracker.model.courier.CourierGetModel;
 import com.example.courierTracker.courierTracker.model.courier.CourierUpdateModel;
@@ -86,6 +87,18 @@ public class CourierService {
             }
         }
     }
+
+    public void deleteCourier(long id) {
+        roleService.checkUserRoleOrElseThrow(Roles.ADMIN);
+        UserEntity courier = userRepo.findById(id).orElseThrow();
+        RoleEntity role = roleService.getRoleByName(Roles.COURIER);
+        if(!courier.getRoles().contains(role)) {
+            throw new CourierHasNoSuchRole("user has no role 'courier'");
+        }
+        courier.getRoles().remove(role);
+        userRepo.save(courier);
+    }
+
     public List<CourierGetModel> getCouriers() {
         RoleEntity courier = roleService.getRoleByName(Roles.COURIER);
         List<UserEntity> users = userRepo.findAll().stream()
