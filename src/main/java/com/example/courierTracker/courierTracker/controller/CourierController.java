@@ -35,8 +35,14 @@ public class CourierController {
     public ResponseEntity<Object> getCouriers() {
         return ResponseEntity.ok(courierService.getCouriers());
     }
-    @DeleteMapping("/{courierId}")
+
+    @GetMapping("/{courierId}")
     public ResponseEntity<Object> getCourier(@PathVariable long courierId) {
+        return ResponseEntity.ok(courierService.getCourier(courierId));
+    }
+
+    @DeleteMapping("/{courierId}")
+    public ResponseEntity<Object> deleteCourier(@PathVariable long courierId) {
         courierService.deleteCourier(courierId);
         return ResponseEntity.ok("courier was deleted");
     }
