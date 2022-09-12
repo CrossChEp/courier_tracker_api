@@ -1,11 +1,8 @@
 package com.example.courierTracker.courierTracker.controller;
 
 import com.example.courierTracker.courierTracker.exception.UserHasNoPermission;
-import com.example.courierTracker.courierTracker.model.UserModels.AdminDataModel;
-import com.example.courierTracker.courierTracker.model.UserModels.DefineCourierModel;
-import com.example.courierTracker.courierTracker.model.courierTypeModels.AddCourierTypeModel;
+import com.example.courierTracker.courierTracker.model.admin.AdminDataModel;
 import com.example.courierTracker.courierTracker.service.AdministrationService;
-import com.example.courierTracker.courierTracker.service.CourierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

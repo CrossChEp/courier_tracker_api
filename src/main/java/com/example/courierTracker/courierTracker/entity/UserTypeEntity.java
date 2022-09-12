@@ -1,5 +1,9 @@
 package com.example.courierTracker.courierTracker.entity;
 
+
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +43,7 @@ public class UserTypeEntity {
     public void setType(String type) {
         this.type = type;
     }
-
+    @JsonIgnore
     public List<UserEntity> getUsers() {
         return users;
     }

@@ -2,7 +2,7 @@ package com.example.courierTracker.courierTracker.service;
 
 import com.example.courierTracker.courierTracker.entity.UserEntity;
 import com.example.courierTracker.courierTracker.exception.alreadyExistsException.UserAlreadyExistsException;
-import com.example.courierTracker.courierTracker.model.UserModels.UserRegisterModel;
+import com.example.courierTracker.courierTracker.model.user.UserRegisterModel;
 import com.example.courierTracker.courierTracker.reopsitory.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -52,12 +52,16 @@ public class UserService implements UserDetailsService {
         user.setName(userData.getName());
         user.setSurname(userData.getSurname());
         user.setEmail(userData.getEmail());
-        user.setPassword(passwordEncoder.encode(userData.getPassword()));
+        user.setPassword(hashPassword(userData.getPassword()));
         return user;
     }
 
     public UserEntity getCurrentUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return userRepo.findByUsername(username);
+    }
+
+    public String hashPassword(String password) {
+        return passwordEncoder.encode(password);
     }
 }
