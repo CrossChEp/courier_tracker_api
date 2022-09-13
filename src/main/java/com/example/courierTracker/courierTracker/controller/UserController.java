@@ -40,4 +40,10 @@ public class UserController {
         userService.updateUser(newUserData);
         return ResponseEntity.ok("user was updated");
     }
+
+    @DeleteMapping
+    public ResponseEntity<Object> deleteUser() {
+        userService.deleteUser();
+        return ResponseEntity.ok("user was deleted");
+    }
 }

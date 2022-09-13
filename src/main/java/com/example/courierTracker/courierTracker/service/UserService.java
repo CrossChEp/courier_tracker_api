@@ -94,6 +94,11 @@ public class UserService implements UserDetailsService {
         userRepo.save(user);
     }
 
+    public void deleteUser() {
+        UserEntity user = getCurrentUser();
+        userRepo.delete(user);
+    }
+
     public String hashPassword(String password) {
         return passwordEncoder.encode(password);
     }
