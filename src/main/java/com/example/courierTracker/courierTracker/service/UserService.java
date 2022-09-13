@@ -76,6 +76,11 @@ public class UserService implements UserDetailsService {
         return userGetModels;
     }
 
+    public UserGetModel getUser(long userId) {
+        UserEntity user = userRepo.findById(userId).orElseThrow();
+        return UserGetModel.toModel(user);
+    }
+
     public String hashPassword(String password) {
         return passwordEncoder.encode(password);
     }
