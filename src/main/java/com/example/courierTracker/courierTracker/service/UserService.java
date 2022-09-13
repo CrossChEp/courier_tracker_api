@@ -2,6 +2,7 @@ package com.example.courierTracker.courierTracker.service;
 
 import com.example.courierTracker.courierTracker.entity.UserEntity;
 import com.example.courierTracker.courierTracker.exception.alreadyExistsException.UserAlreadyExistsException;
+import com.example.courierTracker.courierTracker.model.user.UserGetModel;
 import com.example.courierTracker.courierTracker.model.user.UserRegisterModel;
 import com.example.courierTracker.courierTracker.reopsitory.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -59,6 +61,19 @@ public class UserService implements UserDetailsService {
     public UserEntity getCurrentUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return userRepo.findByUsername(username);
+    }
+
+    public List<UserGetModel> getUsers() {
+        List<UserEntity> users = userRepo.findAll();
+        return generateUserGetModelList(users);
+    }
+
+    private List<UserGetModel> generateUserGetModelList(List<UserEntity> users) {
+        List<UserGetModel> userGetModels = new ArrayList<>();
+        for(var user: users) {
+            userGetModels.add(UserGetModel.toModel(user));
+        }
+        return userGetModels;
     }
 
     public String hashPassword(String password) {
