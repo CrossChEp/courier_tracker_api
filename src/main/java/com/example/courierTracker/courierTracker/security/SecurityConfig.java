@@ -1,9 +1,11 @@
 package com.example.courierTracker.courierTracker.security;
 
+import com.example.courierTracker.courierTracker.CourierTrackerApplication;
 import com.example.courierTracker.courierTracker.filter.CustomAuthenticationFilter;
 import com.example.courierTracker.courierTracker.filter.CustomAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,7 +18,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@Configuration @EnableWebSecurity
+@Configuration @EnableWebSecurity @ComponentScan
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
