@@ -1,28 +1,25 @@
 package com.example.courierTracker.courierTracker.service;
 
 import com.example.courierTracker.courierTracker.config.Roles;
-import com.example.courierTracker.courierTracker.entity.RegionEntity;
-import com.example.courierTracker.courierTracker.entity.RoleEntity;
-import com.example.courierTracker.courierTracker.entity.UserEntity;
-import com.example.courierTracker.courierTracker.entity.UserTypeEntity;
+import com.example.courierTracker.courierTracker.entity.*;
 import com.example.courierTracker.courierTracker.exception.CourierHasNoSuchRole;
-import com.example.courierTracker.courierTracker.exception.UserHasNoPermission;
+import com.example.courierTracker.courierTracker.exception.IncorrectFormat;
 import com.example.courierTracker.courierTracker.exception.alreadyExistsException.CourierTypeAlreadyExists;
-import com.example.courierTracker.courierTracker.model.courier.CourierGetModel;
-import com.example.courierTracker.courierTracker.model.courier.CourierUpdateModel;
-import com.example.courierTracker.courierTracker.model.courier.DefineCourierModel;
-import com.example.courierTracker.courierTracker.model.courier.AddCourierTypeModel;
+import com.example.courierTracker.courierTracker.model.courier.*;
 import com.example.courierTracker.courierTracker.model.region.RegionGetModel;
 import com.example.courierTracker.courierTracker.reopsitory.CourierTypeRepository;
 import com.example.courierTracker.courierTracker.reopsitory.RegionRepository;
+import com.example.courierTracker.courierTracker.reopsitory.TimetableRepository;
 import com.example.courierTracker.courierTracker.reopsitory.UserRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 @Service
 public class CourierService {
@@ -37,16 +34,71 @@ public class CourierService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private TimetableRepository timetableRepo;
+
     public void addCourier(DefineCourierModel courierData) {
         roleService.checkUserRoleOrElseThrow(Roles.ADMIN);
         UserEntity user = userRepo.findById(courierData.getId()).orElseThrow();
         UserTypeEntity courierType = courierTypeRepo.findById(courierData.getTypeId()).orElseThrow();
         RegionEntity region = regionRepo.findById(courierData.getRegionId()).orElseThrow();
         RoleEntity courier = roleService.getRoleByName(Roles.COURIER);
+        if(!checkTimetableAccuracy(courierData)) {
+            throw new IncorrectFormat("the format of timetable is incorrect");
+        }
         user.addRegion(region);
         user.setUserType(courierType);
         user.addRoleToUserRoles(courier);
+        addTimeTableToUser(user, courierData.getTimeTable());
         userRepo.save(user);
+    }
+
+    private boolean checkTimetableAccuracy(DefineCourierModel courierData) {
+        Map<String, String> timeTableDict = convertTimeTableClassToHashMap(courierData.getTimeTable());
+        for(var day: timeTableDict.keySet()) {
+            String time = timeTableDict.get(day);
+            if(time == null) {
+                continue;
+            }
+            if(!checkTime(time)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean checkTime(String time) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("k:m-k:m");
+        try {
+            dateFormat.parse(time.trim());
+        } catch (ParseException e) {
+            return false;
+        }
+        return true;
+    }
+
+    private void addTimeTableToUser(UserEntity user, TimeTableAddModel timeTableData) {
+        Timetable timetable = setTimetable(timeTableData);
+        timetableRepo.save(timetable);
+        user.setTimetable(timetable);
+        userRepo.save(user);
+    }
+
+    private Timetable setTimetable(TimeTableAddModel timeTableData) {
+        Timetable timetable = new Timetable();
+        timetable.setMonday(timeTableData.getMonday());
+        timetable.setTuesday(timeTableData.getTuesday());
+        timetable.setWednesday(timeTableData.getWednesday());
+        timetable.setThursday(timeTableData.getThursday());
+        timetable.setFriday(timeTableData.getFriday());
+        timetable.setSaturday(timeTableData.getSaturday());
+        timetable.setSunday(timeTableData.getSunday());
+        return timetable;
+    }
+
+    private Map<String, String> convertTimeTableClassToHashMap(TimeTableAddModel timeTableData) {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.convertValue(timeTableData, Map.class);
     }
 
     public void addCourierType(AddCourierTypeModel courierTypeData) {

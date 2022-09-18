@@ -17,17 +17,26 @@ public class CourierGetModel {
     private String email;
     private UserTypeEntity type;
     private List<RegionGetModel> regions;
+    private TimeTableAddModel timetable;
 
     public CourierGetModel() {
     }
 
+    public TimeTableAddModel getTimetable() {
+        return timetable;
+    }
+
+    public void setTimetable(TimeTableAddModel timetable) {
+        this.timetable = timetable;
+    }
+
     public static CourierGetModel toModel(UserEntity user) {
         CourierGetModel model = new CourierGetModel();
-        ModelMapper modelMapper = new ModelMapper();
         model.setUsername(user.getUsername());
         model.setId(user.getId());
         model.setType(user.getUserType());
         model.setRegion(CourierService.generateRegionGetModelList(user.getRegions()));
+        model.setTimetable(TimeTableAddModel.toModel(user.getTimetable()));
         return model;
     }
 

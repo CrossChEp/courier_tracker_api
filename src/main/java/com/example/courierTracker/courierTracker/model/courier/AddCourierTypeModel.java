@@ -4,8 +4,12 @@ public class AddCourierTypeModel {
     private String typeName;
     private double courierCapacity;
 
+
+
     public AddCourierTypeModel() {
     }
+
+
 
     public String getTypeName() {
         return typeName;

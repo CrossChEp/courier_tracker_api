@@ -4,8 +4,17 @@ public class DefineCourierModel {
     private long UserId;
     private long typeId;
     private long regionId;
+    private TimeTableAddModel timeTable;
 
     public DefineCourierModel() {
+    }
+
+    public TimeTableAddModel getTimeTable() {
+        return timeTable;
+    }
+
+    public void setTimeTable(TimeTableAddModel timeTable) {
+        this.timeTable = timeTable;
     }
 
     public long getId() {

@@ -36,6 +36,10 @@ public class UserEntity {
 
     private List<RegionEntity> regions;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "timetables_id")
+    private Timetable timetable;
+
     public UserEntity() {
     }
 
@@ -116,5 +120,13 @@ public class UserEntity {
 
     public void setRegions(List<RegionEntity> regions) {
         this.regions = regions;
+    }
+
+    public void setTimetable(Timetable timetable) {
+        this.timetable = timetable;
+    }
+
+    public Timetable getTimetable() {
+        return timetable;
     }
 }
