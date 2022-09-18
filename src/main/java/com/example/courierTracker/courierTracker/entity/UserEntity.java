@@ -129,4 +129,5 @@ public class UserEntity {
     public Timetable getTimetable() {
         return timetable;
     }
+
 }

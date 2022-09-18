@@ -17,6 +17,9 @@ public class RegionEntity {
     @JsonIgnore
     private List<UserEntity> couriers;
 
+    @OneToMany(mappedBy = "region")
+    private List<OrderEntity> orders;
+
     public RegionEntity() {
     }
 
@@ -38,5 +41,13 @@ public class RegionEntity {
 
     public void setCouriers(List<UserEntity> couriers) {
         this.couriers = couriers;
+    }
+
+    public List<OrderEntity> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<OrderEntity> orders) {
+        this.orders = orders;
     }
 }

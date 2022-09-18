@@ -67,7 +67,7 @@ public class CourierService {
         return true;
     }
 
-    private boolean checkTime(String time) {
+    public boolean checkTime(String time) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("k:m-k:m");
         try {
             dateFormat.parse(time.trim());
