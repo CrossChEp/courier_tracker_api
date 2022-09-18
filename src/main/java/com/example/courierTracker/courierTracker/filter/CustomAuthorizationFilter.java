@@ -25,30 +25,35 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         if(request.getServletPath().equals("/api/login")) {
             filterChain.doFilter(request, response);
-        } else {
-            String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-            if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-                try {
-                    String token = authorizationHeader.substring("Bearer ".length());
-                    JWTVerifier verifier = JWT.require(ConfigVariables.getJWTAlgorithm()).build();
-                    DecodedJWT decodedJWT = verifier.verify(token);
-                    String username = decodedJWT.getSubject();
-                    String[] roles = decodedJWT.getClaim("role").asArray(String.class);
-                    List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-                    for (var role : roles) {
-                        authorities.add(new SimpleGrantedAuthority(role));
-                    }
-                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                            new UsernamePasswordAuthenticationToken(username, null, authorities);
-                    SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-                    filterChain.doFilter(request, response);
-                } catch (Exception e) {
-                    response.setHeader("error", e.getMessage());
-                    response.sendError(403, e.getMessage());
-                }
-            } else {
-                filterChain.doFilter(request, response);
+            return;
+        }
+        String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            authorize(authorizationHeader, request, response, filterChain);
+            return;
+        }
+        filterChain.doFilter(request, response);
+    }
+
+    private void authorize(String authorizationHeader, HttpServletRequest request,
+                           HttpServletResponse response,FilterChain filterChain ) throws IOException {
+        try {
+            String token = authorizationHeader.substring("Bearer ".length());
+            JWTVerifier verifier = JWT.require(ConfigVariables.getJWTAlgorithm()).build();
+            DecodedJWT decodedJWT = verifier.verify(token);
+            String username = decodedJWT.getSubject();
+            String[] roles = decodedJWT.getClaim("role").asArray(String.class);
+            List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+            for (var role : roles) {
+                authorities.add(new SimpleGrantedAuthority(role));
             }
+            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                    new UsernamePasswordAuthenticationToken(username, null, authorities);
+            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+            filterChain.doFilter(request, response);
+        } catch (Exception e) {
+            response.setHeader("error", e.getMessage());
+            response.sendError(403, e.getMessage());
         }
     }
 }
