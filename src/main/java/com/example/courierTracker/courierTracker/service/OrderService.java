@@ -33,7 +33,7 @@ public class OrderService {
         RegionEntity region = regionRepo.findById(orderData.getRegion()).orElseThrow();
         order.setRegion(region);
         order.setDeliveryHours(orderData.getDeliveryHours());
-        order.setWeight(order.getWeight());
+        order.setWeight(orderData.getWeight());
         return order;
     }
 }
