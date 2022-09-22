@@ -62,7 +62,7 @@ public class OrderService {
         String time = getTimeFromTimetable(courier);
         List<OrderAddModel> orderModels = new ArrayList<>();
         for(var order: orders) {
-            if(isHourValid(order.getDeliveryHours(), time.split("-"))){
+            if(isHourValid(order.getDeliveryHours(), time.split("-")) && isWeightValid(courier, order)){
                 orderModels.add(OrderAddModel.toModel(order));
             }
         }
@@ -88,5 +88,9 @@ public class OrderService {
             }
         }
         return false;
+    }
+
+    private boolean isWeightValid(UserEntity courier, OrderEntity order) {
+        return order.getWeight() <= courier.getUserType().getCapacity();
     }
 }
