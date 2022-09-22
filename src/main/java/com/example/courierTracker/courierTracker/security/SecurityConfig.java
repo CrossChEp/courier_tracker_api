@@ -44,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(HttpMethod.PUT, "/api/courier/**").authenticated();
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/courier/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.PUT, "/api/user/**").authenticated();
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "api/order/**").authenticated();
         http.addFilter(authenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }

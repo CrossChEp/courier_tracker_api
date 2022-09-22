@@ -1,5 +1,7 @@
 package com.example.courierTracker.courierTracker.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -39,6 +41,7 @@ public class OrderEntity {
         this.deliveryHours = deliveryHours;
     }
 
+    @JsonIgnore
     public RegionEntity getRegion() {
         return region;
     }

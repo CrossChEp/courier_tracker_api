@@ -1,5 +1,7 @@
 package com.example.courierTracker.courierTracker.model.order;
 
+import com.example.courierTracker.courierTracker.entity.OrderEntity;
+
 import java.util.List;
 
 public class OrderAddModel {
@@ -8,6 +10,14 @@ public class OrderAddModel {
     private List<String> deliveryHours;
 
     public OrderAddModel() {
+    }
+
+    public static OrderAddModel toModel(OrderEntity order) {
+        OrderAddModel model = new OrderAddModel();
+        model.setWeight(order.getWeight());
+        model.setRegion(order.getRegion().getId());
+        model.setDeliveryHours(order.getDeliveryHours());
+        return model;
     }
 
     public double getWeight() {
