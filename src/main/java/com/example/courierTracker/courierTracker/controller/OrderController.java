@@ -1,6 +1,7 @@
 package com.example.courierTracker.courierTracker.controller;
 
 import com.example.courierTracker.courierTracker.exception.UserAlreadyHasOrder;
+import com.example.courierTracker.courierTracker.exception.UserHasNoPermission;
 import com.example.courierTracker.courierTracker.model.order.OrderAddModel;
 import com.example.courierTracker.courierTracker.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,16 @@ public class OrderController {
             orderService.acceptOrder(orderId);
             return new ResponseEntity<>("order was accepted", HttpStatus.OK);
         } catch (UserAlreadyHasOrder e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @PostMapping("/finish")
+    public ResponseEntity<Object> finishOrder() {
+        try {
+            orderService.finishOrder();
+            return ResponseEntity.ok("user finished order");
+        } catch (UserHasNoPermission e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }
     }

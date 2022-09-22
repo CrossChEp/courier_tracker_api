@@ -44,8 +44,17 @@ public class UserEntity {
     @JoinColumn(name = "timetables_id")
     private Timetable timetable;
 
+
     public UserEntity() {
     }
+
+//    public long getFinishedOrders() {
+//        return finishedOrders;
+//    }
+//
+//    public void setFinishedOrders(long finishedOrders) {
+//        this.finishedOrders = finishedOrders;
+//    }
 
     public OrderEntity getCurrentOrder() {
         return currentOrder;

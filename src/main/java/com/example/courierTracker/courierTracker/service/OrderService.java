@@ -6,6 +6,7 @@ import com.example.courierTracker.courierTracker.entity.Timetable;
 import com.example.courierTracker.courierTracker.entity.UserEntity;
 import com.example.courierTracker.courierTracker.exception.IncorrectFormat;
 import com.example.courierTracker.courierTracker.exception.UserAlreadyHasOrder;
+import com.example.courierTracker.courierTracker.exception.UserHasNoPermission;
 import com.example.courierTracker.courierTracker.model.courier.TimeTableAddModel;
 import com.example.courierTracker.courierTracker.model.order.OrderAddModel;
 import com.example.courierTracker.courierTracker.model.order.OrderGetModel;
@@ -108,5 +109,25 @@ public class OrderService {
         }
         courier.setCurrentOrder(order);
         userRepo.save(courier);
+    }
+
+    public void finishOrder() {
+        UserEntity courier = userService.getCurrentUser();
+        if(courier.getCurrentOrder() == null) {
+            throw new UserHasNoPermission("user hasn't any orders");
+        }
+        long id = courier.getCurrentOrder().getId();
+        courier.setCurrentOrder(null);
+        deleteOrder(id);
+
+//        courier.setFinishedOrders(courier.getFinishedOrders()+1);
+        userRepo.save(courier);
+    }
+
+    private void deleteOrder(long id) {
+        OrderEntity order = orderRepo.findById(id).orElseThrow();
+        order.setUser(null);
+        orderRepo.delete(order);
+        orderRepo.save(order);
     }
 }
