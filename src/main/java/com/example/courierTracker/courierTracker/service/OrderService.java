@@ -5,11 +5,13 @@ import com.example.courierTracker.courierTracker.entity.RegionEntity;
 import com.example.courierTracker.courierTracker.entity.Timetable;
 import com.example.courierTracker.courierTracker.entity.UserEntity;
 import com.example.courierTracker.courierTracker.exception.IncorrectFormat;
+import com.example.courierTracker.courierTracker.exception.UserAlreadyHasOrder;
 import com.example.courierTracker.courierTracker.model.courier.TimeTableAddModel;
 import com.example.courierTracker.courierTracker.model.order.OrderAddModel;
 import com.example.courierTracker.courierTracker.model.order.OrderGetModel;
 import com.example.courierTracker.courierTracker.reopsitory.OrderRepository;
 import com.example.courierTracker.courierTracker.reopsitory.RegionRepository;
+import com.example.courierTracker.courierTracker.reopsitory.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +35,9 @@ public class OrderService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserRepository userRepo;
+
     public void addOrder(OrderAddModel orderData) {
         for(var time: orderData.getDeliveryHours()) {
             if(!courierService.checkTime(time)) {
@@ -52,19 +57,19 @@ public class OrderService {
         return order;
     }
 
-    public List<OrderAddModel> getOrders() throws ParseException {
+    public List<OrderGetModel> getOrders() throws ParseException {
         List<OrderEntity> orders = orderRepo.findAll();
         return filterOrdersByCourierData(orders);
     }
 
-    private List<OrderAddModel> filterOrdersByCourierData(List<OrderEntity> orders) throws ParseException {
+    private List<OrderGetModel> filterOrdersByCourierData(List<OrderEntity> orders) throws ParseException {
         UserEntity courier = userService.getCurrentUser();
         String time = getTimeFromTimetable(courier);
-        List<OrderAddModel> orderModels = new ArrayList<>();
+        List<OrderGetModel> orderModels = new ArrayList<>();
         for(var order: orders) {
             if(isHourValid(order.getDeliveryHours(), time.split("-")) && isWeightValid(courier, order)
-            && courier.getRegions().contains(order.getRegion())){
-                orderModels.add(OrderAddModel.toModel(order));
+            && courier.getRegions().contains(order.getRegion()) && order.getUser() == null){
+                orderModels.add(OrderGetModel.toModel(order));
             }
         }
         return orderModels;
@@ -93,5 +98,15 @@ public class OrderService {
 
     private boolean isWeightValid(UserEntity courier, OrderEntity order) {
         return order.getWeight() <= courier.getUserType().getCapacity();
+    }
+
+    public void acceptOrder(long orderId) {
+        UserEntity courier = userService.getCurrentUser();
+        OrderEntity order = orderRepo.findById(orderId).orElseThrow();
+        if(courier.getCurrentOrder() != null) {
+            throw new UserAlreadyHasOrder("user can't accept more than 1 order");
+        }
+        courier.setCurrentOrder(order);
+        userRepo.save(courier);
     }
 }

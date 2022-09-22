@@ -37,10 +37,22 @@ public class UserEntity {
     private List<RegionEntity> regions;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "orders_id")
+    private OrderEntity currentOrder;
+
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "timetables_id")
     private Timetable timetable;
 
     public UserEntity() {
+    }
+
+    public OrderEntity getCurrentOrder() {
+        return currentOrder;
+    }
+
+    public void setCurrentOrder(OrderEntity currentOrder) {
+        this.currentOrder = currentOrder;
     }
 
     public void addRegion(RegionEntity region) {

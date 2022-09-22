@@ -18,7 +18,18 @@ public class OrderEntity {
     @JoinColumn(name = "regions_id")
     private RegionEntity region;
 
+    @OneToOne(mappedBy = "currentOrder")
+    private UserEntity user;
+
     public OrderEntity() {
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 
     public double getWeight() {
