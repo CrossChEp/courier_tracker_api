@@ -62,7 +62,8 @@ public class OrderService {
         String time = getTimeFromTimetable(courier);
         List<OrderAddModel> orderModels = new ArrayList<>();
         for(var order: orders) {
-            if(isHourValid(order.getDeliveryHours(), time.split("-")) && isWeightValid(courier, order)){
+            if(isHourValid(order.getDeliveryHours(), time.split("-")) && isWeightValid(courier, order)
+            && courier.getRegions().contains(order.getRegion())){
                 orderModels.add(OrderAddModel.toModel(order));
             }
         }
