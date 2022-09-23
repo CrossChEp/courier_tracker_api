@@ -3,6 +3,7 @@ package com.example.courierTracker.courierTracker.entity;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.persistence.*;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +39,8 @@ public class RegionEntity {
     public List<UserEntity> getCouriers() {
         return couriers;
     }
+
+
 
     public void setCouriers(List<UserEntity> couriers) {
         this.couriers = couriers;

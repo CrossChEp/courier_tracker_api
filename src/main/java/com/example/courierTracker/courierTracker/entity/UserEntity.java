@@ -46,6 +46,16 @@ public class UserEntity {
     @JoinColumn(name = "timetables_id")
     private Timetable timetable;
 
+    private Double rate;
+
+    public Double getRate() {
+        return rate;
+    }
+
+    public void setRate(Double rate) {
+        this.rate = rate;
+    }
+
     public Long getFinishOrder() {
         return finishOrder;
     }

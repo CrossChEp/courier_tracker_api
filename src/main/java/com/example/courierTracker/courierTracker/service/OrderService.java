@@ -1,5 +1,6 @@
 package com.example.courierTracker.courierTracker.service;
 
+import com.example.courierTracker.courierTracker.config.OrderStates;
 import com.example.courierTracker.courierTracker.entity.OrderEntity;
 import com.example.courierTracker.courierTracker.entity.RegionEntity;
 import com.example.courierTracker.courierTracker.entity.UserEntity;
@@ -18,8 +19,10 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
@@ -52,11 +55,13 @@ public class OrderService {
         order.setRegion(region);
         order.setDeliveryHours(orderData.getDeliveryHours());
         order.setWeight(orderData.getWeight());
+        order.setState(OrderStates.OPEN);
         return order;
     }
 
     public List<OrderGetModel> getOrders() throws ParseException {
-        List<OrderEntity> orders = orderRepo.findAll();
+        List<OrderEntity> orders = orderRepo.findAll().stream()
+                .filter(x -> x.getState().equals(OrderStates.OPEN)).collect(Collectors.toList());
         return filterOrdersByCourierData(orders);
     }
 
@@ -105,6 +110,8 @@ public class OrderService {
             throw new UserAlreadyHasOrder("user can't accept more than 1 order");
         }
         courier.setCurrentOrder(order);
+        order.setStartTime(LocalDateTime.now());
+        order.setState(OrderStates.STARTED);
         userRepo.save(courier);
     }
 
@@ -115,15 +122,49 @@ public class OrderService {
         }
         long id = courier.getCurrentOrder().getId();
         courier.setCurrentOrder(null);
-        deleteOrder(id);
+        markOrderAsFinished(id);
         courier.incrementFinishOrder();
+        countAndSetCourierRate(courier);
         userRepo.save(courier);
     }
 
-    private void deleteOrder(long id) {
+    private void markOrderAsFinished(long id) {
         OrderEntity order = orderRepo.findById(id).orElseThrow();
-        order.setUser(null);
-        orderRepo.delete(order);
+        order.setState(OrderStates.FINISHED);
+        order.setEndTime(LocalDateTime.now());
+        setTimeOfOrderExecution(order);
+        orderRepo.save(order);
+    }
+
+    private void countAndSetCourierRate(UserEntity courier) {
+        List<RegionEntity> regions = regionRepo.findAll();
+        int minimalTimeOfDelivery = findMinimalTimeOfRegionDeliveryTime(regions);
+        double courierRate = (double)
+                (60 * 60 - Math.min(minimalTimeOfDelivery, 60 * 60)) / (60 * 60) * 5;
+        courier.setRate(courierRate);
+        userRepo.save(courier);
+    }
+
+    private int findMinimalTimeOfRegionDeliveryTime(List<RegionEntity> regions) {
+        List<Integer> averageTimesOfRegionsDelivery = findAverageTimeOfDeliveryInRegion(regions);
+        return Collections.min(averageTimesOfRegionsDelivery);
+    }
+
+    private List<Integer> findAverageTimeOfDeliveryInRegion(List<RegionEntity> regions) {
+        List<Integer> averageTimeOfDeliveryInRegions = new ArrayList<>();
+        for(var region: regions) {
+            List<OrderEntity> orders = region.getOrders().stream()
+                    .filter(x -> x.getState().equals(OrderStates.FINISHED)).toList();
+            for (var order : orders) {
+                averageTimeOfDeliveryInRegions.add(order.getOrderExecutionTimeInSeconds().getSecond());
+            }
+        }
+        return averageTimeOfDeliveryInRegions;
+    }
+
+    private void setTimeOfOrderExecution(OrderEntity order) {
+        int seconds = order.getEndTime().getSecond() - order.getStartTime().getSecond();
+        order.setOrderExecutionTimeInSeconds(LocalTime.of(0, 0, seconds));
         orderRepo.save(order);
     }
 }
