@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 @Entity
-@Table(name = "users")
+@Table(name = "users", schema = "public")
 public class UserEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +17,8 @@ public class UserEntity {
     private String surname;
     private String email;
     private String password;
+    @Column(nullable = true)
+    private Long finishOrder;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JsonIgnore
@@ -44,17 +46,27 @@ public class UserEntity {
     @JoinColumn(name = "timetables_id")
     private Timetable timetable;
 
-
-    public UserEntity() {
+    public Long getFinishOrder() {
+        return finishOrder;
     }
 
-//    public long getFinishedOrders() {
-//        return finishedOrders;
-//    }
-//
-//    public void setFinishedOrders(long finishedOrders) {
-//        this.finishedOrders = finishedOrders;
-//    }
+    public void setFinishOrder(Long finishOrder) {
+        this.finishOrder = finishOrder;
+    }
+
+    public void incrementFinishOrder() {
+        if(finishOrder == null) {
+            finishOrder = 0L;
+        }
+        finishOrder++;
+    }
+
+    public UserEntity() {
+        if(finishOrder == null) {
+            finishOrder = 0L;
+        }
+    }
+
 
     public OrderEntity getCurrentOrder() {
         return currentOrder;

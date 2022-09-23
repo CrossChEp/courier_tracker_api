@@ -2,8 +2,8 @@ package com.example.courierTracker.courierTracker.service;
 
 import com.example.courierTracker.courierTracker.config.Roles;
 import com.example.courierTracker.courierTracker.entity.*;
-import com.example.courierTracker.courierTracker.exception.CourierHasNoSuchRole;
-import com.example.courierTracker.courierTracker.exception.IncorrectFormat;
+import com.example.courierTracker.courierTracker.exception.Others.CourierHasNoSuchRole;
+import com.example.courierTracker.courierTracker.exception.Others.IncorrectFormat;
 import com.example.courierTracker.courierTracker.exception.alreadyExistsException.CourierTypeAlreadyExists;
 import com.example.courierTracker.courierTracker.model.courier.*;
 import com.example.courierTracker.courierTracker.model.region.RegionGetModel;

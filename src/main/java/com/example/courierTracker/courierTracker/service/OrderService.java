@@ -2,11 +2,10 @@ package com.example.courierTracker.courierTracker.service;
 
 import com.example.courierTracker.courierTracker.entity.OrderEntity;
 import com.example.courierTracker.courierTracker.entity.RegionEntity;
-import com.example.courierTracker.courierTracker.entity.Timetable;
 import com.example.courierTracker.courierTracker.entity.UserEntity;
-import com.example.courierTracker.courierTracker.exception.IncorrectFormat;
-import com.example.courierTracker.courierTracker.exception.UserAlreadyHasOrder;
-import com.example.courierTracker.courierTracker.exception.UserHasNoPermission;
+import com.example.courierTracker.courierTracker.exception.Others.IncorrectFormat;
+import com.example.courierTracker.courierTracker.exception.Others.UserAlreadyHasOrder;
+import com.example.courierTracker.courierTracker.exception.Others.UserHasNoPermission;
 import com.example.courierTracker.courierTracker.model.courier.TimeTableAddModel;
 import com.example.courierTracker.courierTracker.model.order.OrderAddModel;
 import com.example.courierTracker.courierTracker.model.order.OrderGetModel;
@@ -17,9 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
@@ -119,8 +116,7 @@ public class OrderService {
         long id = courier.getCurrentOrder().getId();
         courier.setCurrentOrder(null);
         deleteOrder(id);
-
-//        courier.setFinishedOrders(courier.getFinishedOrders()+1);
+        courier.incrementFinishOrder();
         userRepo.save(courier);
     }
 

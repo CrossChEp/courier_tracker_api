@@ -21,6 +21,7 @@ public class UserGetModel {
 	private UserTypeEntity type;
 	private List<RoleEntity> roles;
 	private OrderGetModel currentOrder;
+	private Long finishedOrders;
 	
 	public UserGetModel() {
 		
@@ -39,6 +40,10 @@ public class UserGetModel {
 		if(user.getCurrentOrder() != null) {
 			model.setCurrentOrder(OrderGetModel.toModel(user.getCurrentOrder()));
 		}
+		model.setFinishedOrders(user.getFinishOrder());
+		if (user.getFinishOrder() != null) {
+			model.setFinishedOrders(user.getFinishOrder());
+		}
 		return model;
 	}
 
@@ -48,6 +53,14 @@ public class UserGetModel {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public Long getFinishedOrders() {
+		return finishedOrders;
+	}
+
+	public void setFinishedOrders(Long finishedOrders) {
+		this.finishedOrders = finishedOrders;
 	}
 
 	public OrderGetModel getCurrentOrder() {

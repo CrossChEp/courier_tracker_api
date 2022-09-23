@@ -1,7 +1,7 @@
 package com.example.courierTracker.courierTracker.controller;
 
-import com.example.courierTracker.courierTracker.exception.UserAlreadyHasOrder;
-import com.example.courierTracker.courierTracker.exception.UserHasNoPermission;
+import com.example.courierTracker.courierTracker.exception.Others.UserAlreadyHasOrder;
+import com.example.courierTracker.courierTracker.exception.Others.UserHasNoPermission;
 import com.example.courierTracker.courierTracker.model.order.OrderAddModel;
 import com.example.courierTracker.courierTracker.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;

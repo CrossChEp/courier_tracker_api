@@ -1,6 +1,6 @@
 package com.example.courierTracker.courierTracker.controller;
 
-import com.example.courierTracker.courierTracker.exception.UserHasNoPermission;
+import com.example.courierTracker.courierTracker.exception.Others.UserHasNoPermission;
 import com.example.courierTracker.courierTracker.model.admin.AdminDataModel;
 import com.example.courierTracker.courierTracker.service.AdministrationService;
 import org.springframework.beans.factory.annotation.Autowired;
