@@ -5,6 +5,7 @@ import java.util.List;
 import com.example.courierTracker.courierTracker.entity.RoleEntity;
 import com.example.courierTracker.courierTracker.entity.UserEntity;
 import com.example.courierTracker.courierTracker.entity.UserTypeEntity;
+import com.example.courierTracker.courierTracker.model.courier.TimeTableAddModel;
 import com.example.courierTracker.courierTracker.model.order.OrderGetModel;
 import com.example.courierTracker.courierTracker.model.region.RegionGetModel;
 import com.example.courierTracker.courierTracker.service.CourierService;
@@ -22,6 +23,7 @@ public class UserGetModel {
 	private List<RoleEntity> roles;
 	private OrderGetModel currentOrder;
 	private Long finishedOrders;
+	private TimeTableAddModel timetable;
 	
 	public UserGetModel() {
 		
@@ -37,6 +39,7 @@ public class UserGetModel {
 		model.setType(user.getUserType());
 		model.setId(user.getId());
 		model.setRoles(user.getRoles());
+		model.setTimetable(TimeTableAddModel.toModel(user.getTimetable()));
 		if(user.getCurrentOrder() != null) {
 			model.setCurrentOrder(OrderGetModel.toModel(user.getCurrentOrder()));
 		}
@@ -53,6 +56,14 @@ public class UserGetModel {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public TimeTableAddModel getTimetable() {
+		return timetable;
+	}
+
+	public void setTimetable(TimeTableAddModel timetable) {
+		this.timetable = timetable;
 	}
 
 	public Long getFinishedOrders() {

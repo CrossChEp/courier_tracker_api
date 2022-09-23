@@ -1,4 +1,4 @@
-package com.example.courierTracker.courierTracker.filter;
+package com.example.courierTracker.courierTracker.exception.Others.filter;
 
 import com.example.courierTracker.courierTracker.ConfigVariables;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,7 +41,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication auth) throws IOException, ServletException {
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication auth) throws IOException {
         String accessToken = JWT.create()
                 .withSubject(auth.getName())
                 .withExpiresAt(new Date().toInstant().plus(Duration.ofMinutes(30)))

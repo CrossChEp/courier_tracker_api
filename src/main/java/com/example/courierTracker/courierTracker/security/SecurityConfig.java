@@ -1,8 +1,7 @@
 package com.example.courierTracker.courierTracker.security;
 
-import com.example.courierTracker.courierTracker.CourierTrackerApplication;
-import com.example.courierTracker.courierTracker.filter.CustomAuthenticationFilter;
-import com.example.courierTracker.courierTracker.filter.CustomAuthorizationFilter;
+import com.example.courierTracker.courierTracker.exception.Others.filter.CustomAuthenticationFilter;
+import com.example.courierTracker.courierTracker.exception.Others.filter.CustomAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

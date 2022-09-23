@@ -1,10 +1,12 @@
-package com.example.courierTracker.courierTracker.filter;
+package com.example.courierTracker.courierTracker.exception.Others.filter;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.courierTracker.courierTracker.ConfigVariables;
 import org.springframework.http.HttpHeaders;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.NonNullApi;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -21,7 +23,8 @@ import java.util.List;
 
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
         if(request.getServletPath().equals("/api/login")) {
             filterChain.doFilter(request, response);
